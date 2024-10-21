@@ -21,11 +21,13 @@ public class PlayerMovement : MonoBehaviour
 		if (Input.GetMouseButtonDown(0))
 		{
 			var ray = _camera.ScreenPointToRay(Input.mousePosition);
-			Physics.Raycast(ray, out var info);
+			if (Physics.Raycast(ray, out var info))
+			{
 
-			var norm = (info.point - transform.position).normalized;
-			_rb.velocity = Vector3.zero;
-			_rb.AddForce(new Vector3(norm.x, 0, norm.z) * _force);
+				var norm = (info.point - transform.position).normalized;
+				_rb.velocity = Vector3.zero;
+				_rb.AddForce(new Vector3(norm.x, 0, norm.z) * _force);
+			}
 		}
 	}
 }
