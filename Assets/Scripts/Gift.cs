@@ -4,15 +4,21 @@ using UnityEngine;
 
 public class Gift : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+	[SerializeField]
+	private MeshRenderer _renderer;
+	private Color _color;
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+	public void SetColor(Color color)
+	{
+		_renderer.materials[1].color = color;
+		_color = color;
+	}
+
+	private void OnCollisionEnter(Collision collision)
+	{
+		if (collision.gameObject.tag == "Player")
+		{
+			Destroy(this.gameObject);
+		}
+	}
 }
