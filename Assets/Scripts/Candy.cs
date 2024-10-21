@@ -17,13 +17,17 @@ public class Candy : MonoBehaviour
 		_color = color;
 	}
 
+	public void ChangePosition(Vector3 position)
+	{
+		transform.position = position;
+	}
+
 	private void OnTriggerEnter(Collider other)
 	{
 		if (other.TryGetComponent(out PlayerController player))
 		{
 			player.ChangeColor(_color);
 			CandyDestroyed?.Invoke();
-			Destroy(this.gameObject);
 		}
 	}
 }

@@ -8,6 +8,7 @@ public class CandySpawner : MonoBehaviour
 
 	private RandomColor _color;
 	private RandomPosition _position;
+	private Candy _candy;
 
 	private void Awake()
 	{
@@ -16,18 +17,20 @@ public class CandySpawner : MonoBehaviour
 	}
 	private void Start()
 	{
-		Instance();
-		_candyPrefab.CandyDestroyed += Instance;
+		_candy = Instantiate(_candyPrefab, _position.GetRandomPosition(), _candyPrefab.transform.localRotation);
+		_candy.SetColor(_color.GetRandomColor());
+		_candy.CandyDestroyed += ChangeParameters;
 	}
 
-	private void Instance()
+	private void ChangeParameters()
 	{
-		var candy = Instantiate(_candyPrefab, _position.GetRandomPosition(), Quaternion.identity);
-		candy.SetColor(_color.GetRandomColor());
+		_candy.SetColor(_color.GetRandomColor());
+		_candy.ChangePosition(_position.GetRandomPosition());
+		
 	}
 
 	private void OnDisable()
 	{
-		_candyPrefab.CandyDestroyed -= Instance;
+		_candyPrefab.CandyDestroyed -= ChangeParameters;
 	}
 }

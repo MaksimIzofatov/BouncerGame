@@ -16,9 +16,10 @@ public class Gift : MonoBehaviour
 
 	private void OnCollisionEnter(Collision collision)
 	{
-		if (collision.gameObject.tag == "Player")
+		if (collision.gameObject.TryGetComponent(out PlayerController player))
 		{
-			Destroy(this.gameObject);
+			if(player.GetColor == _color)
+				Destroy(this.gameObject);
 		}
 	}
 }
