@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -7,6 +8,8 @@ public class Gift : MonoBehaviour
 	[SerializeField]
 	private MeshRenderer _renderer;
 	private Color _color;
+	public Color Color => _color;
+	public event Action<Color, int> DestroyGift;
 
 	public void SetColor(Color color)
 	{
@@ -18,8 +21,11 @@ public class Gift : MonoBehaviour
 	{
 		if (collision.gameObject.TryGetComponent(out PlayerController player))
 		{
-			if(player.GetColor == _color)
+			if (player.GetColor == _color)
+			{
+				DestroyGift?.Invoke(_color, -1);
 				Destroy(this.gameObject);
+			}
 		}
 	}
 }

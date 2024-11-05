@@ -11,6 +11,8 @@ public class GiftsSpawner : MonoBehaviour
     [SerializeField] private int _countGifts = 6;
 	private RandomColor _color;
 	private RandomPosition _position;
+	public event Action<Color, int> CreateGift;
+	public event Action<Color, int> DestroyGift;
 
 	private void Awake()
 	{
@@ -18,12 +20,20 @@ public class GiftsSpawner : MonoBehaviour
 		_position = GetComponent<RandomPosition>();
 	}
 
-	private void Start()
+	public void Init()
 	{
 		for (int i = 0; i < _countGifts; i++)
 		{
 			var gift = Instantiate(_giftPrefab, _position.GetRandomPosition(), Quaternion.identity);
 			gift.SetColor(_color.GetRandomColor());
+			CreateGift?.Invoke(gift.Color, 1);
+			gift.DestroyGift += OnDestroyGift;
+			
 		}
+	}
+
+	private void OnDestroyGift(Color color, int count)
+	{
+		DestroyGift?.Invoke(color, count);
 	}
 }
